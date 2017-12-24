@@ -1,6 +1,6 @@
 angular.module('hanabi.controllers', [])
 
-.controller('DashCtrl', function($scope, $ionicModal) {
+.controller('DashCtrl', function($scope, $ionicModal, gameService) {
 
     $scope.displayError = undefined;
     $scope.loginError = '';
@@ -45,6 +45,7 @@ angular.module('hanabi.controllers', [])
             });
 
             socket.on('init', function(gameData) {
+                gameService.set(gameData);
                 $scope.loginModal.hide();
                 console.log(gameData);
             });
