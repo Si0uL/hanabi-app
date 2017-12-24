@@ -2,6 +2,9 @@ angular.module('hanabi.controllers', [])
 
 .controller('DashCtrl', function($scope, $ionicModal) {
 
+    $scope.displayError = undefined;
+    $scope.loginError = '';
+
     $scope.loginData = {
         server: '',
         username: '',
@@ -20,12 +23,15 @@ angular.module('hanabi.controllers', [])
     });
 
     $scope.signIn = function() {
+        $scope.displayError = false;
         console.log($scope.loginData);
 
         var socket = io.connect('http://' + $scope.loginData.server);
         socket.emit('nouveau_client', $scope.loginData.username);
 
         socket.on('reject_login', function() {
+            $scope.loginError = 'Wrong username';
+            $scope.displayError = true;
             console.log('Wrong username');
         });
 
@@ -33,7 +39,9 @@ angular.module('hanabi.controllers', [])
             socket.emit('login', $scope.loginData.password);
 
             socket.on('reject_pwd', function() {
-                console.log('Wrong Password');
+                $scope.loginError = 'Wrong Password';
+                $scope.displayError = true;
+                console.log('Wrong password');
             });
 
             socket.on('init', function(gameData) {

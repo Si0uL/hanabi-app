@@ -1,8 +1,14 @@
 <ion-modal-view>
     <ion-content>
 
+        <h1>
+            Hanabi Online
+        </h1>
+
+        <br>
+
         <h2>
-            Sign In
+            Sign In:
         </h2>
 
         <div class="list">
@@ -19,9 +25,14 @@
                 <span class="input-label">Password:</span>
                 <input type="password" ng-model="loginData.password">
             </label>
-            <label class="item">
-                <button class="button button-block button-positive green" ng-click="signIn()">Valider</button>
-            </label>
+
+            <br>
+
+            <button class="button button-block button-positive green" ng-click="signIn()">Valider</button>
+
+            <div class="login-warning" ng-if="displayError">
+                {{loginError}}
+            </div>
 
         </div>
     </ion-content>

@@ -1,1 +1,6 @@
 /* Empty. Add your own CSS if you like */
+
+.login-warning {
+    text-align: center;
+    color: #ff0000;
+}
