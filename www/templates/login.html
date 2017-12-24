@@ -1,0 +1,28 @@
+<ion-modal-view>
+    <ion-content>
+
+        <h2>
+            Sign In
+        </h2>
+
+        <div class="list">
+
+            <label class="item item-input">
+                <span class="input-label">IP+Port:</span>
+                <input type="text" ng-model="loginData.server">
+            </label>
+            <label class="item item-input">
+                <span class="input-label">Login:</span>
+                <input type="text" ng-model="loginData.username">
+            </label>
+            <label class="item item-input">
+                <span class="input-label">Password:</span>
+                <input type="password" ng-model="loginData.password">
+            </label>
+            <label class="item">
+                <button class="button button-block button-positive green" ng-click="signIn()">Valider</button>
+            </label>
+
+        </div>
+    </ion-content>
+</ion-modal-view>
