@@ -58,7 +58,7 @@ angular.module('hanabi.controllers', [])
                 socket.on('redraw', function(data) {
                     data.hand.reverse();
                     $scope.gameData.hands[data.pseudo] = data.hand;
-                    gameService.set(scope.gameData);
+                    gameService.set($scope.gameData);
                     $state.reload();
                 });
 
