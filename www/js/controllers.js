@@ -1,6 +1,6 @@
-angular.module('hanabi.controllers', [])
+angular.module('hanabi.controllers', ['ionic'])
 
-.controller('DashCtrl', function($scope, $state, $ionicModal, gameService) {
+.controller('DashCtrl', function($scope, $state, $ionicModal, $ionicActionSheet, $timeout, gameService) {
 
     $scope.loginError = '';
     $scope.logged = false;
@@ -50,6 +50,9 @@ angular.module('hanabi.controllers', [])
                     gameData.hands[p].reverse();
                     gameData.colleagues.push(p);
                 };
+                for (var i = 0; i < gameData.your_cards_angles.length; i++) {
+                    gameData.your_cards_angles[i] = {angle: gameData.your_cards_angles[i], index: i}
+                };
                 gameService.set(gameData);
                 console.log(gameData);
                 $scope.gameData = gameData;
@@ -61,6 +64,32 @@ angular.module('hanabi.controllers', [])
                     gameService.set($scope.gameData);
                     $state.reload();
                 });
+
+                // Triggered on a button click, or some other target
+                $scope.actionCard = function(index) {
+
+                    // Show the action sheet
+                    var hideSheet = $ionicActionSheet.show({
+                        buttons: [
+                            { text: 'Play <i class="icon ion-ios-game-controller-a-outline"></i>' },
+                            { text: 'Discard <i class="icon ion-ios-trash-outline"></i>' },
+                            { text: 'Rotate Left <i class="icon ion-ios-undo-outline"></i>' },
+                            { text: 'Rotate Right <i class="icon ion-ios-redo-outline"></i>' },
+                            { text: 'Cancel <i class="icon ion-ios-close-outline"></i>' }
+                        ],
+                        titleText: 'Action with your ' + ['1st', '2nd', '3rd', '4th', '5th'][index] + ' card:',
+                        buttonClicked: function(i) {
+                            console.log(i);
+                            return true;
+                        }
+                    });
+
+                    // For example's sake, hide the sheet after two seconds
+                    $timeout(function() {
+                        hideSheet();
+                    }, 10000);
+
+                };
 
             });
         });

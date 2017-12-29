@@ -1,5 +1,6 @@
 <ion-view view-title="Game Board">
     <ion-content class="padding">
+
         <ion-list>
             <ion-item class="item-remove-animate hand-container" ng-repeat="player in gameData.colleagues" type="item-text-wrap">
                 <h2>{{player}}:</h2>
@@ -11,7 +12,22 @@
                 </div>
 
             </ion-item>
-
         </ion-list>
+
+        <br>
+
+        <ion-list>
+            <ion-item class="item-remove-animate hand-container" type="item-text-wrap">
+                <h2>Your Hand:</h2>
+
+                <div class="flexrow">
+                    <div class="card-container" ng-repeat="card in gameData.your_cards_angles">
+                        <img class="card" ng-src="img/tree.png" style="transform: rotate({{card.angle}}deg);" ng-click="actionCard({{card.index}})">
+                    </div>
+                </div>
+
+            </ion-item>
+        </ion-list>
+
     </ion-content>
 </ion-view>
