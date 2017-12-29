@@ -1,17 +1,17 @@
 angular.module('hanabi.controllers', [])
 
-.controller('DashCtrl', function($scope, $ionicModal, gameService) {
+.controller('DashCtrl', function($scope, $state, $ionicModal, gameService) {
 
-    $scope.displayError = undefined;
     $scope.loginError = '';
+    $scope.logged = false;
 
     $scope.loginData = {
         server: '',
         username: '',
         password: '',
-    }
+    };
 
-    // define create account view
+    // Show the login slide view if needed
     $ionicModal.fromTemplateUrl('templates/login.html', {
         scope: $scope,
         animation: 'slide-in-up'
@@ -23,7 +23,6 @@ angular.module('hanabi.controllers', [])
     });
 
     $scope.signIn = function() {
-        $scope.displayError = false;
         console.log($scope.loginData);
 
         var socket = io.connect('http://' + $scope.loginData.server);
@@ -31,7 +30,7 @@ angular.module('hanabi.controllers', [])
 
         socket.on('reject_login', function() {
             $scope.loginError = 'Wrong username';
-            $scope.displayError = true;
+            $state.reload();
             console.log('Wrong username');
         });
 
@@ -40,37 +39,36 @@ angular.module('hanabi.controllers', [])
 
             socket.on('reject_pwd', function() {
                 $scope.loginError = 'Wrong Password';
-                $scope.displayError = true;
+                $state.reload();
                 console.log('Wrong password');
             });
 
             socket.on('init', function(gameData) {
+                $scope.logged = true;
                 gameData.colleagues = [];
                 for (var p in gameData.hands) {
+                    gameData.hands[p].reverse();
                     gameData.colleagues.push(p);
                 };
                 gameService.set(gameData);
                 console.log(gameData);
                 $scope.gameData = gameData;
                 $scope.loginModal.hide();
+
+                socket.on('redraw', function(data) {
+                    data.hand.reverse();
+                    $scope.gameData.hands[data.pseudo] = data.hand;
+                    gameService.set(scope.gameData);
+                    $state.reload();
+                });
+
             });
         });
     }
 })
 
-.controller('ChatsCtrl', function($scope, Chats) {
-    // With the new view caching in Ionic, Controllers are only called
-    // when they are recreated or on app start, instead of every page change.
-    // To listen for when this page is active (for example, to refresh data),
-    // listen for the $ionicView.enter event:
-    //
-    //$scope.$on('$ionicView.enter', function(e) {
-    //});
+.controller('ChatsCtrl', function($scope) {
 
-    $scope.chats = Chats.all();
-    $scope.remove = function(chat) {
-        Chats.remove(chat);
-    };
 })
 
 .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
