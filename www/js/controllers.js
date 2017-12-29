@@ -45,9 +45,14 @@ angular.module('hanabi.controllers', [])
             });
 
             socket.on('init', function(gameData) {
+                gameData.colleagues = [];
+                for (var p in gameData.hands) {
+                    gameData.colleagues.push(p);
+                };
                 gameService.set(gameData);
+                $scope.gameData
+                $scope.gameData = gameData;
                 $scope.loginModal.hide();
-                console.log(gameData);
             });
         });
     }

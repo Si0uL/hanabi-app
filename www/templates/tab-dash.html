@@ -1,5 +1,17 @@
 <ion-view view-title="Dashboard">
     <ion-content class="padding">
-        <h2>Hanabi Online</h2>
+        <ion-list>
+            <ion-item class="item-remove-animate hand-container" ng-repeat="player in gameData.colleagues" type="item-text-wrap">
+                <h2>{{player}}:</h2>
+
+                <div class="flexrow">
+                    <div class="card-container" ng-repeat="card in gameData.hands[player]">
+                        <img class="card" ng-src="img/cards/{{card.color}}{{card.number}}.png">
+                    </div>
+                </div>
+
+            </ion-item>
+
+        </ion-list>
     </ion-content>
 </ion-view>

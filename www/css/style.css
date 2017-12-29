@@ -4,3 +4,23 @@
     text-align: center;
     color: #ff0000;
 }
+
+.hand-container {
+    padding: 5px;
+}
+
+.flexrow {
+	display: flex;
+	flex-flow: row nowrap;
+    justify-content: space-between;
+	align-items: center;
+}
+
+.card {
+    width: 100%;
+    margin: 0;
+}
+
+.card-container {
+    margin: 5px;
+}
