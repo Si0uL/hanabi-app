@@ -38,11 +38,11 @@ angular.module('hanabi', ['ionic', 'hanabi.controllers', 'hanabi.services'])
     })
 
     // Each tab has its own nav history stack:
-    .state('tab.dash', {
-        url: '/dash',
+    .state('tab.game', {
+        url: '/game',
         views: {
-            'tab-dash': {
-                templateUrl: 'templates/tab-dash.html',
+            'tab-game': {
+                templateUrl: 'templates/tab-game.html',
                 controller: 'DashCtrl'
             }
         }
@@ -67,6 +67,6 @@ angular.module('hanabi', ['ionic', 'hanabi.controllers', 'hanabi.services'])
     });
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/tab/dash');
+    $urlRouterProvider.otherwise('/tab/game');
 
 });
