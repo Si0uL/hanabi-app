@@ -50,7 +50,7 @@ angular.module('hanabi.controllers', [])
                     gameData.colleagues.push(p);
                 };
                 gameService.set(gameData);
-                $scope.gameData
+                console.log(gameData);
                 $scope.gameData = gameData;
                 $scope.loginModal.hide();
             });

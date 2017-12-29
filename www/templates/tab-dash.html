@@ -6,7 +6,7 @@
 
                 <div class="flexrow">
                     <div class="card-container" ng-repeat="card in gameData.hands[player]">
-                        <img class="card" ng-src="img/cards/{{card.color}}{{card.number}}.png">
+                        <img class="card" ng-src="img/cards/{{card.color}}{{card.number}}.png" style="transform: rotate({{card.angle}}deg);">
                     </div>
                 </div>
 
