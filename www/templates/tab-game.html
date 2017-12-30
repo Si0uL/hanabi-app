@@ -7,6 +7,7 @@
 
                 <div class="flexrow">
                     <div class="card-container" ng-repeat="card in gameData.hands[player]">
+                        <img class="card" ng-src="img/blank.png" ng-if="!card">
                         <img class="card" ng-src="img/cards/{{card.color}}{{card.number}}.png" style="transform: rotate({{card.angle}}deg);">
                     </div>
                 </div>
@@ -22,7 +23,8 @@
 
                 <div class="flexrow">
                     <div class="card-container" ng-repeat="card in gameData.your_cards_angles">
-                        <img class="card" ng-src="img/tree.png" style="transform: rotate({{card.angle}}deg);" ng-click="actionCard({{card.index}})">
+                        <img class="card" ng-src="img/blank.png" ng-if="card.noCard">
+                        <img class="card" ng-src="img/tree.png" style="transform: rotate({{card.angle}}deg);" ng-click="actionCard({{card.index}})" ng-if="!card.noCard">
                     </div>
                 </div>
 

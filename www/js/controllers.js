@@ -51,7 +51,7 @@ angular.module('hanabi.controllers', ['ionic'])
                     gameData.colleagues.push(p);
                 };
                 for (var i = 0; i < gameData.your_cards_angles.length; i++) {
-                    gameData.your_cards_angles[i] = {angle: gameData.your_cards_angles[i], index: i}
+                    gameData.your_cards_angles[i] = {angle: gameData.your_cards_angles[i], index: i, noCard: gameData.your_cards_angles[i] === -1};
                 };
                 gameService.set(gameData);
                 console.log(gameData);
@@ -61,6 +61,15 @@ angular.module('hanabi.controllers', ['ionic'])
                 socket.on('redraw', function(data) {
                     data.hand.reverse();
                     $scope.gameData.hands[data.pseudo] = data.hand;
+                    gameService.set($scope.gameData);
+                    $state.reload();
+                });
+
+                socket.on('redraw_mine', function(data) {
+                    $scope.gameData.your_cards_angles = data;
+                    for (var i = 0; i < $scope.gameData.your_cards_angles.length; i++) {
+                        $scope.gameData.your_cards_angles[i] = {angle: data[i], index: i, noCard: gameData.your_cards_angles[i] === -1};
+                    };
                     gameService.set($scope.gameData);
                     $state.reload();
                 });
