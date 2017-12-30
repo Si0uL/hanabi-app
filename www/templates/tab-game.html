@@ -1,35 +1,43 @@
 <ion-view view-title="Game Board">
     <ion-content class="padding">
 
-        <ion-list>
-            <ion-item class="item-remove-animate hand-container" ng-repeat="player in gameData.colleagues" type="item-text-wrap">
-                <h2>{{player}}:</h2>
+        <div ng-if="logged">
 
-                <div class="flexrow">
-                    <div class="card-container" ng-repeat="card in gameData.hands[player]">
-                        <img class="card" ng-src="img/blank.png" ng-if="!card">
-                        <img class="card" ng-src="img/cards/{{card.color}}{{card.number}}.png" style="transform: rotate({{card.angle}}deg);">
+            <ion-list>
+                <ion-item class="item-remove-animate hand-container" ng-repeat="player in gameData.colleagues" type="item-text-wrap">
+                    <h2>{{player}}:</h2>
+
+                    <div class="flexrow">
+                        <div class="card-container" ng-repeat="card in gameData.hands[player]">
+                            <img class="card" ng-src="img/blank.png" ng-if="!card">
+                            <img class="card" ng-src="img/cards/{{card.color}}{{card.number}}.png" style="transform: rotate({{card.angle}}deg);">
+                        </div>
                     </div>
-                </div>
 
-            </ion-item>
-        </ion-list>
+                </ion-item>
+            </ion-list>
+
+            <br>
+
+            <ion-list>
+                <ion-item class="item-remove-animate hand-container" type="item-text-wrap">
+                    <h2>Your Hand:</h2>
+
+                    <div class="flexrow">
+                        <div class="card-container" ng-repeat="card in gameData.your_cards_angles">
+                            <img class="card" ng-src="img/blank.png" ng-if="card.noCard">
+                            <img class="card" ng-src="img/tree.png" style="transform: rotate({{card.angle}}deg);" ng-click="actionCard({{card.index}})" ng-if="!card.noCard">
+                        </div>
+                    </div>
+
+                </ion-item>
+            </ion-list>
+
+        </div>
 
         <br>
 
-        <ion-list>
-            <ion-item class="item-remove-animate hand-container" type="item-text-wrap">
-                <h2>Your Hand:</h2>
-
-                <div class="flexrow">
-                    <div class="card-container" ng-repeat="card in gameData.your_cards_angles">
-                        <img class="card" ng-src="img/blank.png" ng-if="card.noCard">
-                        <img class="card" ng-src="img/tree.png" style="transform: rotate({{card.angle}}deg);" ng-click="actionCard({{card.index}})" ng-if="!card.noCard">
-                    </div>
-                </div>
-
-            </ion-item>
-        </ion-list>
+        <button class="button button-small button-dark icon-left ion-arrow-swap" ng-click="reorder()"> Reorder </button>
 
     </ion-content>
 </ion-view>

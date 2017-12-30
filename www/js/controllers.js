@@ -1,6 +1,6 @@
 angular.module('hanabi.controllers', ['ionic'])
 
-.controller('DashCtrl', function($scope, $state, $ionicModal, $ionicActionSheet, $timeout, gameService) {
+.controller('DashCtrl', function($scope, $state, $ionicModal, $ionicPopup, $ionicActionSheet, $timeout, gameService) {
 
     $scope.loginError = '';
     $scope.logged = false;
@@ -74,7 +74,37 @@ angular.module('hanabi.controllers', ['ionic'])
                     $state.reload();
                 });
 
-                // Triggered on a button click, or some other target
+                $scope.reorder = function() {
+
+                    $scope.lastReorder = {};
+
+                    var myPopup = $ionicPopup.show({
+                        template: '<input type="order" ng-model="lastReorder.data">',
+                        title: 'Choose a new order (ex. 14325):',
+                        scope: $scope,
+                        buttons: [
+                            { text: 'Cancel' },
+                            {
+                                text: '<b>Send</b>',
+                                type: 'button-positive',
+                                onTap: function(e) {
+                                    if (!$scope.lastReorder.data) {
+                                        e.preventDefault();
+                                    } else {
+                                        return $scope.lastReorder.data;
+                                    }
+                                }
+                            }
+                        ]
+                    })
+
+                    .then(function(res) {
+                        if (res) socket.emit('reorderRequest', res);
+                    });
+
+                };
+
+                // Triggered on a click on a card
                 $scope.actionCard = function(index) {
 
                     // Show the action sheet
@@ -112,7 +142,6 @@ angular.module('hanabi.controllers', ['ionic'])
                         }
                     });
 
-                    // For example's sake, hide the sheet after two seconds
                     $timeout(function() {
                         hideSheet();
                     }, 5000);
