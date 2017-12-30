@@ -74,6 +74,20 @@ angular.module('hanabi.controllers', ['ionic'])
                     $state.reload();
                 });
 
+                socket.on('notify', function(message) {
+                    $scope.showAlert('Notification', message);
+                });
+
+/*
+                socket.on('next_turn', function(data) {
+                    $scope.showAlert('New Turn', data.lastPlay + '\n - \n' + data.playerUp + " is up!");
+                });
+*/
+
+                socket.on('game_end', function(message) {
+                    $scope.showAlert('Game Finished', message);
+                });
+
                 $scope.reorder = function() {
 
                     $scope.lastReorder = {};
@@ -102,6 +116,13 @@ angular.module('hanabi.controllers', ['ionic'])
                         if (res) socket.emit('reorderRequest', res);
                     });
 
+                };
+
+                $scope.showAlert = function(title, message) {
+                    var alertPopup = $ionicPopup.alert({
+                        title: title,
+                        template: message
+                    });
                 };
 
                 // Triggered on a click on a card
