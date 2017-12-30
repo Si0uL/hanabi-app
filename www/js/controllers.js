@@ -79,7 +79,26 @@ angular.module('hanabi.controllers', ['ionic'])
                         ],
                         titleText: 'Action with your ' + ['1st', '2nd', '3rd', '4th', '5th'][index] + ' card:',
                         buttonClicked: function(i) {
-                            console.log(i);
+                            switch (i) {
+                                // Play
+                                case 0:
+                                    socket.emit('playRequest', String(index));
+                                    break;
+                                // Discard
+                                case 1:
+                                    socket.emit('discardRequest', String(index));
+                                    break;
+                                // Rotate Left
+                                case 2:
+                                    socket.emit('rotateRequest', {id: index, angle: 90});
+                                    break;
+                                // Rotate Right
+                                case 3:
+                                    socket.emit('rotateRequest', {id: index, angle: -90});
+                                    break;
+                                default:
+                                    break;
+                            }
                             return true;
                         }
                     });
@@ -87,7 +106,7 @@ angular.module('hanabi.controllers', ['ionic'])
                     // For example's sake, hide the sheet after two seconds
                     $timeout(function() {
                         hideSheet();
-                    }, 10000);
+                    }, 5000);
 
                 };
 
