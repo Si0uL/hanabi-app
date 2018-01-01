@@ -188,6 +188,114 @@ angular.module('hanabi.controllers', ['ionic'])
 
                 };
 
+                // Triggered by a click on info button
+                $scope.inform = function() {
+
+                    // Aux function to call after info type is chosen
+                    inform3 = function(player, type) {
+                        var buttons3
+                        if (type === 'number') {
+                            buttons3 = [
+                                { text: '1' },
+                                { text: '2' },
+                                { text: '3' },
+                                { text: '4' },
+                                { text: '5' },
+                                { text: 'Cancel <i class="icon ion-ios-close-outline"></i>' },
+                            ];
+                        } else if (type === 'color') {
+                            buttons3 = [
+                                { text: 'Black' },
+                                { text: 'Red' },
+                                { text: 'Blue' },
+                                { text: 'Green' },
+                                { text: 'Yellow' },
+                            ];
+                            if (!$scope.gameData.hardMode) {
+                                buttons3.push({ text: 'Multicolor' })
+                            };
+                            buttons3.push({ text: 'Cancel <i class="icon ion-ios-close-outline"></i>' });
+                        };
+
+                        var hideSheet3 = $ionicActionSheet.show({
+                            buttons: buttons3,
+                            titleText: 'Choose an information:',
+                            buttonClicked: function(i) {
+                                if (i < buttons3.length - 1) {
+                                    var info = buttons3[i].text.toLowerCase();
+                                    socket.emit('infoRequest', {player: player, info: info});
+                                };
+                                return true;
+                            }
+                        });
+
+                        $timeout(function() {
+                            hideSheet3();
+                        }, 5000);
+                    };
+
+                    // Aux. function when to use when player is chosen
+                    inform2 = function(player) {
+
+                        var hideSheet2 = $ionicActionSheet.show({
+                            buttons: [
+                                { text: 'Number' },
+                                { text: 'Color' },
+                                { text: 'Cancel <i class="icon ion-ios-close-outline"></i>' },
+                            ],
+                            titleText: 'Choose an action type:',
+                            buttonClicked: function(i) {
+                                switch (i) {
+                                    case 0:
+                                        inform3(player, 'number');
+                                        break;
+                                    case 1:
+                                        inform3(player, 'color');
+                                        break;
+                                    default:
+                                        break;
+                                };
+                                return true;
+                            }
+                        });
+
+                        $timeout(function() {
+                            hideSheet2();
+                        }, 5000);
+
+                    };
+
+                    // Show the player selection if needed
+                    if ($scope.gameData.colleagues.length === 1) {
+                        inform2($scope.gameData.colleagues[0]);
+                    } else {
+
+                        var buttons = [];
+                        $scope.gameData.colleagues.forEach(function(player) {
+                            buttons.push({ text: player })
+                        });
+
+                        buttons.push({ text: 'Cancel <i class="icon ion-ios-close-outline"></i>' });
+
+                        var hideSheet1 = $ionicActionSheet.show({
+                            buttons: buttons,
+                            titleText: 'Who de you want to inform?',
+                            buttonClicked: function(i) {
+                                if (i != $scope.gameData.colleagues.length) {
+                                    inform2($scope.gameData.colleagues[i]);
+                                };
+                                return true;
+                            }
+                        });
+
+                        $timeout(function() {
+                            hideSheet1();
+                        }, 5000);
+
+                    }
+
+                }; // End info selection
+
             });
         });
     }
