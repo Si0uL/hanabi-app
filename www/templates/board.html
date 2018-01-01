@@ -1,0 +1,41 @@
+<ion-modal-view>
+    <ion-content>
+
+        <div ng-if="logged">
+
+            <ion-list>
+                <ion-item class="item-remove-animate hand-container" type="item-text-wrap">
+                    <h2>Played:</h2>
+
+                    <div class="flexrow">
+                        <div class="card-container" ng-repeat="color in ['black', 'red', 'blue']">
+                            <img class="card" ng-src="img/blank.png" ng-if="gameData.found[color] === 0">
+                            <img class="card" ng-src="img/cards/{{color}}{{gameData.found[color]}}.png" ng-if="gameData.found[color] != 0">
+                        </div>
+                    </div>
+
+                    <div class="flexrow">
+                        <div class="card-container" ng-repeat="color in ['green', 'multicolor', 'yellow']">
+                            <img class="card" ng-src="img/blank.png" ng-if="gameData.found[color] === 0">
+                            <img class="card" ng-src="img/cards/{{color}}{{gameData.found[color]}}.png" ng-if="gameData.found[color] != 0">
+                        </div>
+                    </div>
+
+                </ion-item>
+            </ion-list>
+
+            <br>
+
+            <ion-list>
+                <ion-item class="item-remove-animate hand-container" type="item-text-wrap">
+                    <h2>Discarded:</h2>
+
+                </ion-item>
+            </ion-list>
+
+            <button class="button button-light" ng-click="boardModal.hide()">Close</button>
+
+        </div>
+
+    </ion-content>
+</ion-modal-view>

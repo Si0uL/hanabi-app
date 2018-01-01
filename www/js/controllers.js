@@ -11,7 +11,7 @@ angular.module('hanabi.controllers', ['ionic'])
         password: '',
     };
 
-    // Show the login slide view if needed
+    // Declaring modals
     $ionicModal.fromTemplateUrl('templates/login.html', {
         scope: $scope,
         animation: 'slide-in-up'
@@ -20,6 +20,15 @@ angular.module('hanabi.controllers', ['ionic'])
     .then(function(modal) {
         $scope.loginModal = modal;
         modal.show();
+    });
+
+    $ionicModal.fromTemplateUrl('templates/board.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    })
+
+    .then(function(modal) {
+        $scope.boardModal = modal;
     });
 
     $scope.signIn = function() {
@@ -76,6 +85,11 @@ angular.module('hanabi.controllers', ['ionic'])
 
                 socket.on('notify', function(message) {
                     $scope.showAlert('Notification', message);
+                });
+
+                socket.on('played', function(color) {
+                    $scope.gameData.found[color] ++;
+                    $state.reload();
                 });
 
 /*

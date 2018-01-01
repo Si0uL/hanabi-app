@@ -33,11 +33,15 @@
                 </ion-item>
             </ion-list>
 
+            <br>
+
+            <div class="button-bar">
+                <button class="button button-small button-dark icon-left ion-clipboard" ng-click="boardModal.show()"> Board </button>
+                <button class="button button-small button-stable icon-left ion-ios-information-outline" ng-click="inform()"> Info. </button>
+                <button class="button button-small button-dark icon-left ion-arrow-swap" ng-click="reorder()"> Reorder </button>
+           </div>
+
         </div>
-
-        <br>
-
-        <button class="button button-small button-dark icon-left ion-arrow-swap" ng-click="reorder()"> Reorder </button>
 
     </ion-content>
 </ion-view>
