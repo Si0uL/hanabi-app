@@ -30,6 +30,15 @@
                 <ion-item class="item-remove-animate hand-container" type="item-text-wrap">
                     <h2>Discarded:</h2>
 
+                    <div ng-repeat="index1 in [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50]">
+                        <div class="flexrow" ng-if="index1 < gameData.discarded.length">
+                            <div class="card-container" ng-repeat="index2 in [0, 1, 2, 3, 4]">
+                                <img class="card-no-border" ng-src="img/blank.png" ng-if="index1 + index2 >= gameData.discarded.length">
+                                <img class="card" ng-src="img/cards/{{gameData.discarded[index1+index2].color}}{{gameData.discarded[index1+index2].number}}.png" ng-if="index1 + index2 < gameData.discarded.length">
+                            </div>
+                        </div>
+                    </div>
+
                 </ion-item>
             </ion-list>
 

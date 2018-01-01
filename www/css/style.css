@@ -21,6 +21,11 @@
     margin: 0;
 }
 
+.card-no-border {
+    width: 100%;
+    margin: 0;
+}
+
 .card-container {
     margin: 5px;
 }

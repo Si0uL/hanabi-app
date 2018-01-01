@@ -92,6 +92,11 @@ angular.module('hanabi.controllers', ['ionic'])
                     $state.reload();
                 });
 
+                socket.on('discarded', function(card) {
+                    $scope.gameData.discarded.push(card);
+                    $state.reload();
+                })
+
 /*
                 socket.on('next_turn', function(data) {
                     $scope.showAlert('New Turn', data.lastPlay + '\n - \n' + data.playerUp + " is up!");
