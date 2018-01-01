@@ -97,11 +97,12 @@ angular.module('hanabi.controllers', ['ionic'])
                     $state.reload();
                 })
 
-/*
                 socket.on('next_turn', function(data) {
-                    $scope.showAlert('New Turn', data.lastPlay + '\n - \n' + data.playerUp + " is up!");
+                    // $scope.showAlert('New Turn', data.lastPlay + '\n - \n' + data.playerUp + " is up!"); // bugs, duunno why
+                    $scope.gameData.nextToPlay = data.playerUp;
+                    $scope.gameData.lastPlay = data.lastPlay;
+                    $state.reload();
                 });
-*/
 
                 socket.on('game_end', function(message) {
                     $scope.showAlert('Game Finished', message);
