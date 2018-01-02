@@ -13,8 +13,8 @@
 
                     <div class="flexrow">
                         <div class="card-container" ng-repeat="card in gameData.hands[player]">
-                            <img class="card" ng-src="img/blank.png" ng-if="!card">
-                            <img class="card" ng-src="img/cards/{{card.color}}{{card.number}}.png" style="transform: rotate({{card.angle}}deg);">
+                            <img class="card2" ng-src="img/blank.png" ng-if="!card">
+                            <img class="card2" ng-src="img/cards/{{card.color}}{{card.number}}.png" style="transform: rotate({{card.angle}}deg);">
                         </div>
                     </div>
 
@@ -33,8 +33,9 @@
 
                     <div class="flexrow">
                         <div class="card-container" ng-repeat="card in gameData.your_cards_angles">
-                            <img class="card" ng-src="img/blank.png" ng-if="card.noCard">
-                            <img class="card" ng-src="img/tree.png" style="transform: rotate({{card.angle}}deg);" ng-click="actionCard({{card.index}})" ng-if="!card.noCard">
+                            <img class="card2" ng-src="img/blank.png" ng-if="card.noCard">
+                            <img class="card2" ng-src="img/tree.png" style="transform: rotate({{card.angle}}deg);" ng-click="actionCard({{card.index}})" ng-if="!card.noCard && !highlighted[card.index]">
+                            <img class="card-blue" ng-src="img/tree.png" style="transform: rotate({{card.angle}}deg);" ng-click="actionCard({{card.index}})" ng-if="!card.noCard && highlighted[card.index]">
                         </div>
                     </div>
 

@@ -7,15 +7,15 @@
 
                 <div class="flexrow">
                     <div class="card-container" ng-repeat="color in ['black', 'red', 'blue']" style="text-align:center;">
-                        <img class="card" ng-src="img/blank.png" ng-if="gameData.found[color] === 0" style="width:60%;">
-                        <img class="card" ng-src="img/cards/{{color}}{{gameData.found[color]}}.png" ng-if="gameData.found[color] != 0" style="width:60%;">
+                        <img class="card2" ng-src="img/blank.png" ng-if="gameData.found[color] === 0" style="width:60%;">
+                        <img class="card2" ng-src="img/cards/{{color}}{{gameData.found[color]}}.png" ng-if="gameData.found[color] != 0" style="width:60%;">
                     </div>
                 </div>
 
                 <div class="flexrow">
                     <div class="card-container" ng-repeat="color in ['green', 'multicolor', 'yellow']" style="text-align:center;">
-                        <img class="card" ng-src="img/blank.png" ng-if="gameData.found[color] === 0" style="width:60%;">
-                        <img class="card" ng-src="img/cards/{{color}}{{gameData.found[color]}}.png" ng-if="gameData.found[color] != 0" style="width:60%;">
+                        <img class="card2" ng-src="img/blank.png" ng-if="gameData.found[color] === 0" style="width:60%;">
+                        <img class="card2" ng-src="img/cards/{{color}}{{gameData.found[color]}}.png" ng-if="gameData.found[color] != 0" style="width:60%;">
                     </div>
                 </div>
 
@@ -52,7 +52,7 @@
                 <div class="flexrow" ng-if="index1 < gameData.discarded.length">
                     <div class="card-container" ng-repeat="index2 in [0, 1, 2, 3, 4, 5, 6]">
                         <img class="card-no-border" ng-src="img/blank.png" ng-if="index1 + index2 >= gameData.discarded.length">
-                        <img class="card" ng-src="img/cards/{{gameData.discarded[index1+index2].color}}{{gameData.discarded[index1+index2].number}}.png" ng-if="index1 + index2 < gameData.discarded.length">
+                        <img class="card2" ng-src="img/cards/{{gameData.discarded[index1+index2].color}}{{gameData.discarded[index1+index2].number}}.png" ng-if="index1 + index2 < gameData.discarded.length">
                     </div>
                 </div>
             </div>

@@ -74,6 +74,7 @@ angular.module('hanabi.controllers', ['ionic'])
                 $scope.gameData = gameData;
                 $scope.loginModal.hide();
                 $scope.showNextAlert = false;
+                $scope.highlighted = new Array($scope.gameData.cardsPerPlayer).fill(false);
 
                 socket.on('redraw', function(data) {
                     data.hand.reverse();
@@ -88,6 +89,10 @@ angular.module('hanabi.controllers', ['ionic'])
                         $scope.gameData.your_cards_angles[i] = {angle: data[i], index: i, noCard: gameData.your_cards_angles[i] === -1};
                     };
                     gameService.set($scope.gameData);
+                    // cancel potential highlighting
+                    for (var i = 0; i < $scope.highlighted.length; i++) {
+                        $scope.highlighted[i] = false;
+                    };
                     $state.reload();
                 });
 
@@ -121,9 +126,23 @@ angular.module('hanabi.controllers', ['ionic'])
                 });
 
                 socket.on('next_turn', function(data) {
+                    // cancel potential highlighting
+                    for (var i = 0; i < $scope.highlighted.length; i++) {
+                        $scope.highlighted[i] = false;
+                    };
                     $scope.showAlert('New Turn', data.lastPlay + '\n - \n' + data.playerUp + " is up!"); // bugs, duunno why
                     $scope.gameData.nextToPlay = data.playerUp;
                     $scope.gameData.lastPlay = data.lastPlay;
+                    // If an info is given to me, highlight the related cards
+                    if (data.lastPlay.includes('says')) {
+                        var str = data.lastPlay.split('-')[0].split('says')[1];
+                        if (str.includes($scope.loginData.username)) {
+                            var aux = str.split('position')[1].replace(/[^0-9,]/g, '').split(',');
+                            aux.forEach(function(elt) {
+                                $scope.highlighted[Number(elt)-1] = true;
+                            })
+                        }
+                    }
                     $state.reload();
                 });
 

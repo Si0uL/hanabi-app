@@ -20,9 +20,16 @@
 	align-items: center;
 }
 
-.card {
+.card2 {
     width: 100%;
     margin: 0;
+    border: #DDDDDD solid 1px;
+}
+
+.card-blue {
+    width: 100%;
+    margin: 0;
+    border: #387EF5 solid 1px;
 }
 
 .card-no-border {
