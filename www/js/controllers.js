@@ -72,6 +72,7 @@ angular.module('hanabi.controllers', ['ionic'])
                 console.log(gameData);
                 $scope.gameData = gameData;
                 $scope.loginModal.hide();
+                $scope.showNextAlert = false;
 
                 socket.on('redraw', function(data) {
                     data.hand.reverse();
@@ -119,7 +120,7 @@ angular.module('hanabi.controllers', ['ionic'])
                 });
 
                 socket.on('next_turn', function(data) {
-                    // $scope.showAlert('New Turn', data.lastPlay + '\n - \n' + data.playerUp + " is up!"); // bugs, duunno why
+                    $scope.showAlert('New Turn', data.lastPlay + '\n - \n' + data.playerUp + " is up!"); // bugs, duunno why
                     $scope.gameData.nextToPlay = data.playerUp;
                     $scope.gameData.lastPlay = data.lastPlay;
                     $state.reload();
@@ -129,9 +130,8 @@ angular.module('hanabi.controllers', ['ionic'])
                     $scope.showAlert('Game Finished', message);
                 });
 
+                $scope.lastReorder = {};
                 $scope.reorder = function() {
-
-                    $scope.lastReorder = {};
 
                     var myPopup = $ionicPopup.show({
                         template: '<input type="order" ng-model="lastReorder.data">',
@@ -160,10 +160,22 @@ angular.module('hanabi.controllers', ['ionic'])
                 };
 
                 $scope.showAlert = function(title, message) {
-                    var alertPopup = $ionicPopup.alert({
-                        title: title,
-                        template: message
-                    });
+                    if ($scope.showNextAlert) {
+                        var alertPopop = $ionicPopup.show({
+                            title: title, // String. The title of the popup.
+                            cssClass: '', // String, The custom CSS class name
+                            template: message, // String (optional). The html template to place in the popup body.
+                            buttons: [{
+                                text: 'OK',
+                                type: 'button-outline button-positive',
+                                onTap: function(e) {
+                                    $state.reload();
+                                }
+                            }]
+                        });
+                    } else {
+                        $scope.showNextAlert = true;
+                    }
                 };
 
                 // Triggered on a click on a card
@@ -318,7 +330,7 @@ angular.module('hanabi.controllers', ['ionic'])
 
                 }; // End info selection
 
-            });
+            }); // EO socket.on('init')
         });
     }
 })
