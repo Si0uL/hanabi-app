@@ -95,7 +95,22 @@ angular.module('hanabi.controllers', ['ionic'])
                 socket.on('discarded', function(card) {
                     $scope.gameData.discarded.push(card);
                     $state.reload();
-                })
+                });
+
+                socket.on('info', function(str) {
+                    if (str === 'add') {
+                        $scope.gameData.informations ++;
+                    } else {
+                        $scope.gameData.informations --;
+                    }
+                    $state.reload();
+                });
+
+                socket.on('warning', function(data) {
+                    $scope.gameData.warnings ++;
+                    $state.reload();
+                    $scope.showAlert('Warning: ' + data.pseudo + ' attempted to play the ' + data.card.color + ' ' + data.card.number);
+                });
 
                 socket.on('next_turn', function(data) {
                     // $scope.showAlert('New Turn', data.lastPlay + '\n - \n' + data.playerUp + " is up!"); // bugs, duunno why

@@ -1,5 +1,9 @@
 /* Empty. Add your own CSS if you like */
 
+.icon-margin {
+    margin: 0 3px;
+}
+
 .login-warning {
     text-align: center;
     color: #ff0000;
