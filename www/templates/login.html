@@ -15,15 +15,15 @@
 
             <label class="item item-input">
                 <span class="input-label">IP+Port:</span>
-                <input type="text" ng-model="loginData.server">
+                <input type="text" ng-model="loginData.server" ng-keypress="keyInput($event)">
             </label>
             <label class="item item-input">
                 <span class="input-label">Login:</span>
-                <input type="text" ng-model="loginData.username">
+                <input type="text" ng-model="loginData.username" ng-keypress="keyInput($event)">
             </label>
             <label class="item item-input">
                 <span class="input-label">Password:</span>
-                <input type="password" ng-model="loginData.password">
+                <input type="password" ng-model="loginData.password"  ng-keypress="keyInput($event)">
             </label>
 
             <br>

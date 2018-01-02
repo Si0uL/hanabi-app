@@ -31,6 +31,12 @@ angular.module('hanabi.controllers', ['ionic'])
         $scope.boardModal = modal;
     });
 
+    $scope.keyInput = function($event) {
+        if ($event.keyCode === 13) {
+            $scope.signIn();
+        };
+    };
+
     $scope.signIn = function() {
         console.log($scope.loginData);
 
