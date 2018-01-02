@@ -1,6 +1,6 @@
 angular.module('hanabi.controllers', ['ionic'])
 
-.controller('DashCtrl', function($scope, $state, $ionicModal, $ionicPopup, $ionicActionSheet, $timeout, gameService) {
+.controller('DashCtrl', function($scope, $state, $ionicModal, $ionicPopup, $ionicActionSheet, $timeout, gameService, socketService) {
 
     $scope.loginError = '';
     $scope.logged = false;
@@ -41,6 +41,7 @@ angular.module('hanabi.controllers', ['ionic'])
         console.log($scope.loginData);
 
         var socket = io.connect('http://' + $scope.loginData.server);
+        socketService.set({socket: socket, user: $scope.loginData.username});
         socket.emit('nouveau_client', $scope.loginData.username);
 
         socket.on('reject_login', function() {
@@ -335,7 +336,39 @@ angular.module('hanabi.controllers', ['ionic'])
     }
 })
 
-.controller('ChatsCtrl', function($scope) {
+.controller('ChatsCtrl', function($scope, $state, socketService) {
+
+        $scope.toSend = { text:'' };
+        $scope.messages = [];
+        $scope.socket = socketService.get().socket;
+        $scope.username = socketService.get().user;
+
+        $scope.socket.emit('message_history_request');
+
+        $scope.socket.on('message_history', function(history) {
+            $scope.messages = history;
+            $scope.messages.forEach(function(elt,n) {
+                if (elt.pseudo === $scope.username) $scope.messages[n].pseudo = 'You'
+            });
+            $state.reload();
+        });
+
+        $scope.keyInput = function($event) {
+            if ($event.keyCode === 13) {
+                $scope.send();
+            };
+        };
+
+        $scope.send = function() {
+            $scope.socket.emit('message', $scope.toSend.text);
+            $scope.toSend.text = '';
+        };
+
+        $scope.socket.on('message', function(data) {
+            if (data.pseudo === $scope.username) data.pseudo = 'You'
+            $scope.messages = [{pseudo: data.pseudo, message: data.message}].concat($scope.messages);
+            $state.reload();
+        });
 
 })
 
