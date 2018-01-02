@@ -61,11 +61,17 @@ angular.module('hanabi.controllers', ['ionic'])
 
             socket.on('init', function(gameData) {
                 $scope.logged = true;
-                gameData.colleagues = [];
                 for (var p in gameData.hands) {
                     gameData.hands[p].reverse();
-                    gameData.colleagues.push(p);
                 };
+                gameData.colleagues = [];
+                gameData.players.forEach(function(elt,n) {
+                    if (elt === $scope.loginData.username) {
+                        for (var i = 0; i < gameData.players.length - 1; i++) {
+                            gameData.colleagues[i] = gameData.players[(n + i + 1) % gameData.players.length];
+                        };
+                    };
+                });
                 for (var i = 0; i < gameData.your_cards_angles.length; i++) {
                     gameData.your_cards_angles[i] = {angle: gameData.your_cards_angles[i], index: i, noCard: gameData.your_cards_angles[i] === -1};
                 };
