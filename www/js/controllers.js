@@ -137,6 +137,7 @@ angular.module('hanabi.controllers', ['ionic'])
                         $scope.highlighted[i] = false;
                     };
                     $scope.showAlert('New Turn', data.lastPlay + '\n - \n' + data.playerUp + " is up!"); // bugs, duunno why
+                    if ($scope.gameData.nextToPlay != $scope.loginData.username) navigator.vibrate(500);
                     $scope.gameData.nextToPlay = data.playerUp;
                     $scope.gameData.lastPlay = data.lastPlay;
                     // If an info is given to me, highlight the related cards
@@ -390,7 +391,11 @@ angular.module('hanabi.controllers', ['ionic'])
         };
 
         $scope.socket.on('message', function(data) {
-            if (data.pseudo === $scope.username) data.pseudo = 'You'
+            if (data.pseudo === $scope.username) {
+                data.pseudo = 'You';
+            } else {
+                navigator.vibrate([200, 200, 200]);
+            }
             $scope.messages = [{pseudo: data.pseudo, message: data.message}].concat($scope.messages);
             $state.reload();
         });

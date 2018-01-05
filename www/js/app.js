@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'hanabi.services' is found in services.js
 // 'hanabi.controllers' is found in controllers.js
-angular.module('hanabi', ['ionic', 'hanabi.controllers', 'hanabi.services'])
+angular.module('hanabi', ['ionic', 'hanabi.controllers', 'hanabi.services', 'ngCordova'])
 
 .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
