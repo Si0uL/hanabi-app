@@ -362,12 +362,26 @@ angular.module('hanabi.controllers', ['ionic'])
     }
 })
 
-.controller('ChatsCtrl', function($scope, $state, socketService) {
+.controller('ChatsCtrl', function($scope, $state, socketService, $cordovaToast) {
 
         $scope.toSend = { text:'' };
         $scope.messages = [];
         $scope.socket = socketService.get().socket;
         $scope.username = socketService.get().user;
+        $scope.chatTabActive = true;
+
+        // watch for tab change to display a toast only when chat tab isn't active
+        $scope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+            $scope.chatTabActive = toState && toState.name === 'tab.chats';
+        });
+
+        $scope.toast = function(message) {
+            $cordovaToast.showLongBottom(message).then(function(success) {
+                // success
+            }, function (error) {
+                // error
+            });
+        };
 
         $scope.socket.emit('message_history_request');
 
@@ -395,6 +409,7 @@ angular.module('hanabi.controllers', ['ionic'])
                 data.pseudo = 'You';
             } else {
                 navigator.vibrate([200, 200, 200]);
+                if (!$scope.chatTabActive) $scope.toast(data.pseudo + ': ' + data.message);
             }
             $scope.messages = [{pseudo: data.pseudo, message: data.message}].concat($scope.messages);
             $state.reload();
